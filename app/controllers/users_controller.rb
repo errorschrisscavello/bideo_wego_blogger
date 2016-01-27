@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  # before_action :require_login
-  # before_action :require_current_user, :only => [:edit, :update, :destroy]
+  before_action :require_login
+  before_action :require_current_user, :only => [:edit, :update, :destroy]
   before_action :set_user, :only => [:show, :edit, :update, :destroy]
 
 
@@ -83,6 +83,14 @@ class UsersController < ApplicationController
         flash[:error] = 'Unable to sign out user'
         redirect_to users_path
       end
+    end
+  end
+
+
+  def require_current_user
+    unless params[:id].to_i == current_user.id.to_i
+      flash[:error] = 'You are unauthorized to perform that action'
+      redirect_to root_path
     end
   end
 end

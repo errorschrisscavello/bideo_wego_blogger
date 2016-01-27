@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
         @current_user = User.find_by_auth_token(session[:auth_token])
       end
     end
+    @current_user
   end
   helper_method :current_user
 
@@ -43,10 +44,12 @@ class ApplicationController < ActionController::Base
 
 
   def require_login
-    unless signed_in_user? && request.path == root_path
-      flash[:error] = 'That action requires you to be logged in'
+    unless signed_in_user?
+      unless request.path == root_path
+        flash[:error] = 'That action requires you to be logged in'
+      end
+      redirect_to login_path
     end
-    redirect_to root_path
   end
 
 
@@ -54,14 +57,6 @@ class ApplicationController < ActionController::Base
     if signed_in_user?
       flash[:error] = 'Logout first!'
       redirect_to root_path
-    end
-  end
-
-
-  def require_current_user
-    user_id = controller_name == 'users' ? params[:id] : params[:user_id]
-    unless current_user && user_id.to_i == current_user.id.to_i
-      flash[:error] = 'You are unauthorized to perform that action'
     end
   end
 end

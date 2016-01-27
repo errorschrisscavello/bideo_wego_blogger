@@ -1,0 +1,30 @@
+<header class="page-header">
+  <h1>
+    <%= fa('user') %> User
+    <small>
+      <%= link_to(@user.username, user_path(@user)) %>
+    </small>
+  </h1>
+</header>
+
+<div class="actions">
+  <%= link_to(fa('pencil-square-o') + ' Edit', edit_user_path(@user), :class => 'btn btn-default') %>
+  <%= link_to(fa('close') + ' Delete', user_path(@user), :method => :delete, :class => 'btn btn-danger') %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Key</th><th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Username</td><td><%= @user.username %></td>
+    </tr>
+    <tr>
+      <td>Email</td><td><%= @user.email %></td>
+    </tr>
+  </tbody>
+</table>
+

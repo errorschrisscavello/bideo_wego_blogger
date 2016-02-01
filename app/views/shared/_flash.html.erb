@@ -1,28 +1,10 @@
 <% unless flash.empty? %>
-      
-  <% if flash[:success] %>
-    <div class="alert alert-success">
-      <%= flash[:success] %>
+
+  <% flash.each do |key, value| %>
+    <div class="main-flash alert alert-<%= flash_css_class(key) %>">
+      <%= value %>
     </div>
   <% end %>
-
-  <% if flash[:notice] %>
-    <div class="alert alert-info">
-      <%= flash[:notice] %>
-    </div>
-  <% end %>
-
-  <% if flash[:warning] %>
-    <div class="alert alert-warning">
-      <%= flash[:warning] %>
-    </div>
-  <% end %>
-
-  <% if flash[:error] %>
-    <div class="alert alert-danger">
-      <%= flash[:error] %>
-    </div>
-  <% end %>      
 
 <% end %>
 

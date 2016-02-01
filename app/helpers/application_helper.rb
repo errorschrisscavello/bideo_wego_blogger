@@ -7,6 +7,15 @@ module ApplicationHelper
   end
 
 
+  def flash_css_class(key)
+    if ['notice', 'error'].include?(key)
+      key == 'notice' ? 'info' : 'danger'
+    else
+      key.to_s
+    end
+  end
+
+
   def fa(*args)
     classes = args.map { |arg| "fa-#{arg}" }.join(' ')
     %Q[<i class="fa #{classes}"></i>].html_safe

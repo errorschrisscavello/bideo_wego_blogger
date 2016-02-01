@@ -5,3 +5,19 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+if Rails.env == 'development'
+  puts 'Destroying old data'
+  Rake::Task['db:migrate:reset'].invoke
+  puts 'Data destroyed!'
+end
+
+puts 'Creating users'
+User.create(
+  :username => 'foobar1234',
+  :email => 'foo1234@bar.com',
+  :password => 'password'
+)
+
+puts 'done!'
+

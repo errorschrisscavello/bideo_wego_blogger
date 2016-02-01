@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+.main-flash.alert {
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  text-align: center;
+}
+

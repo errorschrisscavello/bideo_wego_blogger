@@ -1,0 +1,26 @@
+<header class="page-header">
+  <h1>
+    <%= fa('gears') %> Setting Types
+    <small>
+      <%= link_to(fa('plus') + ' New Setting Type', new_setting_type_path) %>
+    </small>
+  </h1>
+</header>
+
+
+<% if @setting_types.present? %>
+
+  <ol>
+    <% @setting_types.each do |setting_type| %>
+      <li>
+        <%= link_to(setting_type.name, setting_type_path(setting_type)) %>
+      </li>
+    <% end %>
+  </ol>
+
+<% else %>
+
+  <p class="text-danger">Why for are there no more setting types anymore?</p>
+
+<% end %>
+

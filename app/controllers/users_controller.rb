@@ -59,11 +59,8 @@ class UsersController < ApplicationController
 
   private
   def set_user
-    if User.exists?(params[:id])
-      @user = User.find(params[:id])
-    else
-      redirect_to root_path, :flash => { :error => 'Unable to find user' }
-    end
+    @user = User.find_by_id(params[:id])
+    redirect_to root_path, :flash => { :error => 'Unable to find user' } unless @user
   end
 
 

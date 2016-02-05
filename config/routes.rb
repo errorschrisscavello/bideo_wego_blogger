@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :setting_types
   resources :users
   resource :session, :only => [:new, :create, :destroy]
   get 'login', :to => 'sessions#new'

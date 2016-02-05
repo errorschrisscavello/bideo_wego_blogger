@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160127050222) do
+ActiveRecord::Schema.define(version: 20160205023019) do
+
+  create_table "setting_types", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "setting_types", ["name"], name: "index_setting_types_on_name", unique: true
+
+  create_table "settings", force: :cascade do |t|
+    t.string   "key",             null: false
+    t.string   "value"
+    t.integer  "setting_type_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "settings", ["key"], name: "index_settings_on_key"
+  add_index "settings", ["setting_type_id", "key"], name: "index_settings_on_setting_type_id_and_key", unique: true
+  add_index "settings", ["setting_type_id"], name: "index_settings_on_setting_type_id"
+  add_index "settings", ["value"], name: "index_settings_on_value"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",           null: false

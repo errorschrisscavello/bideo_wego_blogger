@@ -6,18 +6,92 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# ----------------------------------------
+# Reset Database
+# ----------------------------------------
+
 if Rails.env == 'development'
   puts 'Destroying old data'
   Rake::Task['db:migrate:reset'].invoke
   puts 'Data destroyed!'
 end
 
+
+# ----------------------------------------
+# Config and Helpers
+# ----------------------------------------
+
+MULTIPLIER = 1
+NUM_SETTING_TYPES = 5
+NUM_SETTINGS = 100
+
+
+$uid = 0
+def get_unique_id
+  $uid += 1
+end
+
+
+def random_setting_type
+  {
+    :name => "#{Faker::Hacker.noun} #{get_unique_id}".titleize
+  }
+end
+
+
+def random_setting(setting_type)
+  {
+    :key => "#{Faker::Hacker.verb}-#{get_unique_id}",
+    :value => "#{Faker::Hacker.say_something_smart}",
+    :setting_type_id => setting_type.id
+  }
+end
+
+
+# ----------------------------------------
+# Create Users
+# ----------------------------------------
+
 puts 'Creating users'
+
 User.create(
   :username => 'foobar1234',
   :email => 'foo1234@bar.com',
   :password => 'password'
 )
+user = User.first
+
+
+# ----------------------------------------
+# Create SettingTypes
+# ----------------------------------------
+
+puts 'Creating SettingTypes'
+
+setting_types = []
+(MULTIPLIER * NUM_SETTING_TYPES).times do
+  setting_types << random_setting_type
+end
+SettingType.create(setting_types)
+setting_types = SettingType.all
+
+
+# ----------------------------------------
+# Create Settings
+# ----------------------------------------
+
+puts 'Creating Settigs'
+
+settings = []
+(MULTIPLIER * NUM_SETTINGS).times do
+  settings << random_setting(setting_types.sample)
+end
+Setting.create(settings)
+settings = Setting.all
+
+# ----------------------------------------
+# Finished Seeding!
+# ----------------------------------------
 
 puts 'done!'
 

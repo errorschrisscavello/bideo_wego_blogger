@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # TODO more thorough full application tests!
+  # TODO add comments to methods
+  # TODO make mockups
+
 
   def current_user
     if User.where(:auth_token => session[:auth_token])

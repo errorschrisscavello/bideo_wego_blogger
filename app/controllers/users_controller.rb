@@ -44,6 +44,7 @@ class UsersController < ApplicationController
 
 
   def destroy
+    # TODO a user should not be signed out if it is the last user and destroy is attempted
     sign_out_if_current_user
     if @user.destroy
       flash[:success] = 'User destroyed'

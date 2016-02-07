@@ -1,4 +1,11 @@
 class User < ActiveRecord::Base
+  include UniquelyIdentifiable
+
+
+  unique_id_seed :email
+  unique_id_attribute :auth_token
+
+
   has_secure_password
 
   validates :email,
@@ -17,14 +24,7 @@ class User < ActiveRecord::Base
             :allow_nil => true
 
 
-  after_create :create_auth_token
   before_destroy :deny_destroy_if_last
-
-
-  def create_auth_token
-    update!(:auth_token => generate_auth_token)
-    auth_token
-  end
 
 
   def self.find_by_username_or_email(username_or_email)
@@ -39,12 +39,6 @@ class User < ActiveRecord::Base
 
 
   private
-  def generate_auth_token
-    str = SecureRandom.uuid + email
-    SecureRandom.urlsafe_base64 + Base64.urlsafe_encode64(str)
-  end
-
-
   def deny_destroy_if_last
     is_last = User.count == 1
     if is_last

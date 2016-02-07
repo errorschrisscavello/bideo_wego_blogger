@@ -3,7 +3,7 @@ class CreateSettings < ActiveRecord::Migration
     create_table :settings do |t|
       t.string :key, :null => false
       t.string :value
-      t.integer :setting_type_id
+      t.integer :setting_type_id, :null => false
 
       t.index :key
       t.index :value

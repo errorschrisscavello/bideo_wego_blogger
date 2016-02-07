@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
 
   protected
   def sign_in(user)
-    session[:auth_token] = user.create_auth_token
+    session[:auth_token] = user.auth_token
     @current_user = user
     @current_user == user && session[:auth_token] == user.auth_token
   end

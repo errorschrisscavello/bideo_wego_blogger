@@ -87,22 +87,6 @@ describe User do
   end
 
   # ----------------------------------------
-  # create_auth_token
-  # ----------------------------------------
-
-  describe '#create_auth_token' do
-    it 'returns a string token' do
-      expect(user.create_auth_token).to be_a(String)
-    end
-
-
-    it 'sets the auth token on the user' do
-      user.create_auth_token
-      expect(user.auth_token).to_not be_nil
-    end
-  end
-
-  # ----------------------------------------
   # find_by_username_or_email
   # ----------------------------------------
 
@@ -127,19 +111,6 @@ describe User do
   # ----------------------------------------
 
   describe 'callbacks' do
-
-    # ----------------------------------------
-    # after create
-    # ----------------------------------------
-
-    describe 'after create' do
-
-      it 'calls #create_auth_token' do
-        user = User.new(attributes)
-        expect(user).to receive(:create_auth_token)
-        user.save!
-      end
-    end
 
     # ----------------------------------------
     # before destroy

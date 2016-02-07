@@ -1,6 +1,6 @@
 module ControllerHelper
   def login(user)
-    session[:auth_token] = user.create_auth_token
+    session[:auth_token] = user.auth_token
   end
 
 

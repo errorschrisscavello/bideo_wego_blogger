@@ -35,7 +35,7 @@ end
 
 def random_slug
   {
-    :uri => "#{Faker::Hacker.say_something_smart} #{get_unique_id}".slugify,
+    :uri => "#{Faker::Hacker.say_something_smart} #{get_unique_id}".slugify_trim,
     :sluggable_type => 'Page',
     :sluggable_id => get_unique_id
   }

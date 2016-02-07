@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205023019) do
+ActiveRecord::Schema.define(version: 20160207000126) do
 
   create_table "setting_types", force: :cascade do |t|
     t.string   "name",       null: false
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20160205023019) do
   create_table "settings", force: :cascade do |t|
     t.string   "key",             null: false
     t.string   "value"
-    t.integer  "setting_type_id"
+    t.integer  "setting_type_id", null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
@@ -34,11 +34,24 @@ ActiveRecord::Schema.define(version: 20160205023019) do
   add_index "settings", ["setting_type_id"], name: "index_settings_on_setting_type_id"
   add_index "settings", ["value"], name: "index_settings_on_value"
 
+  create_table "slugs", force: :cascade do |t|
+    t.string   "uri",            null: false
+    t.string   "sluggable_type", null: false
+    t.integer  "sluggable_id",   null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "slugs", ["sluggable_id", "sluggable_type"], name: "index_slugs_on_sluggable_id_and_sluggable_type", unique: true
+  add_index "slugs", ["sluggable_id"], name: "index_slugs_on_sluggable_id"
+  add_index "slugs", ["sluggable_type"], name: "index_slugs_on_sluggable_type"
+  add_index "slugs", ["uri"], name: "index_slugs_on_uri", unique: true
+
   create_table "users", force: :cascade do |t|
     t.string   "email",           null: false
-    t.string   "username"
-    t.string   "password_digest"
-    t.string   "auth_token"
+    t.string   "username",        null: false
+    t.string   "password_digest", null: false
+    t.string   "auth_token",      null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end

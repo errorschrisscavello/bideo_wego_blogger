@@ -1,0 +1,30 @@
+<header class="page-header">
+  <h1>
+    <%= fa('link') %> Slugs
+  </h1>
+</header>
+
+
+<% if @slugs.present? %>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>URI</th><th>Sluggable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @slugs.each do |slug| %>
+        <tr>
+          <td>/<%= slug.uri %></td><td>Link to <%= slug.sluggable_type %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+
+  <p class="text-danger">Why for are there no more slugs anymore?</p>
+
+<% end %>
+

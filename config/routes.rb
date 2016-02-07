@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :slugs, :only => [:index]
   resources :setting_types
   resources :users
   resource :session, :only => [:new, :create, :destroy]

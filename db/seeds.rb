@@ -24,11 +24,21 @@ end
 MULTIPLIER = 1
 NUM_SETTING_TYPES = 5
 NUM_SETTINGS = 100
+NUM_SLUGS = 50
 
 
 $uid = 0
 def get_unique_id
   $uid += 1
+end
+
+
+def random_slug
+  {
+    :uri => "#{Faker::Hacker.say_something_smart} #{get_unique_id}".slugify,
+    :sluggable_type => 'Page',
+    :sluggable_id => get_unique_id
+  }
 end
 
 
@@ -80,7 +90,7 @@ setting_types = SettingType.all
 # Create Settings
 # ----------------------------------------
 
-puts 'Creating Settigs'
+puts 'Creating Settings'
 
 settings = []
 (MULTIPLIER * NUM_SETTINGS).times do
@@ -89,9 +99,30 @@ end
 Setting.create(settings)
 settings = Setting.all
 
+
+# ----------------------------------------
+# Create Settings
+# ----------------------------------------
+
+puts 'Creating Slugs'
+
+slugs = []
+(MULTIPLIER * NUM_SLUGS).times do
+  slugs << random_slug
+end
+Slug.create(slugs)
+slugs = Slug.all
+
+
 # ----------------------------------------
 # Finished Seeding!
 # ----------------------------------------
 
 puts 'done!'
+
+
+
+
+
+
 

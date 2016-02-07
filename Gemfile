@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# ----------------------------------------
+# Development and Test
+# ----------------------------------------
+
 group :development, :test do
   gem 'hirb'
   gem 'rspec'
@@ -13,6 +17,13 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'faker'
 end
+
+
+# ----------------------------------------
+# All
+# ----------------------------------------
+
+gem 'slugify'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

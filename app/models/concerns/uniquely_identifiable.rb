@@ -30,11 +30,11 @@ module UniquelyIdentifiable
 
 
     def generate_unique_id(seed)
-      t = Time.now
-      SecureRandom.uuid + '-' +
-        Digest::MD5.new.hexdigest(seed) + '-' +
-        t.to_i.to_s + '-' +
-        t.usec.to_s
+      secure_unique_id = SecureRandom.uuid
+      hashed_unique_field = Digest::MD5.new.hexdigest(seed)
+      time = Time.now
+      time = "#{time.to_i}-#{time.usec}"
+      "#{secure_unqiue_id}-#{hashed_unique_field}-#{time}"
     end
   end
 

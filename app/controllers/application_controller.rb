@@ -9,10 +9,8 @@ class ApplicationController < ActionController::Base
 
 
   def current_user
-    if User.where(:auth_token => session[:auth_token])
-      unless @current_user && @current_user.auth_token == session[:auth_token]
-        @current_user = User.find_by_auth_token(session[:auth_token])
-      end
+    unless @current_user && @current_user.auth_token == session[:auth_token]
+      @current_user = User.find_by_auth_token(session[:auth_token])
     end
     @current_user
   end

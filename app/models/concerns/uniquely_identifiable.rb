@@ -34,7 +34,7 @@ module UniquelyIdentifiable
       hashed_unique_field = Digest::MD5.new.hexdigest(seed)
       time = Time.now
       time = "#{time.to_i}-#{time.usec}"
-      "#{secure_unqiue_id}-#{hashed_unique_field}-#{time}"
+      "#{secure_unique_id}-#{hashed_unique_field}-#{time}"
     end
   end
 

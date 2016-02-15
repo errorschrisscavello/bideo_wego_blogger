@@ -76,7 +76,7 @@ class UsersController < ApplicationController
 
 
   def sign_out_if_current_user
-    if @user == current_user
+    if is_current_user?(@user)
       unless sign_out
         flash[:error] = 'Unable to sign out user'
         redirect_to users_path

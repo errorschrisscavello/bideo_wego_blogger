@@ -1,6 +1,6 @@
-class CreateTemplateFileTypes < ActiveRecord::Migration
+class CreateFileTypes < ActiveRecord::Migration
   def change
-    create_table :template_file_types do |t|
+    create_table :file_types do |t|
       t.string :name, :null => false
       t.string :extension, :null => false
 

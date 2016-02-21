@@ -25,20 +25,13 @@ MULTIPLIER = 1
 NUM_SETTING_TYPES = 5
 NUM_SETTINGS = 100
 NUM_SLUGS = 50
+NUM_TEMPLATE_LAYOUTS = 5
+NUM_PAGES = 10
 
 
 $uid = 0
 def get_unique_id
   $uid += 1
-end
-
-
-def random_slug
-  {
-    :uri => "#{Faker::Hacker.say_something_smart} #{get_unique_id}".slugify_trim,
-    :sluggable_type => 'Page',
-    :sluggable_id => get_unique_id
-  }
 end
 
 
@@ -54,6 +47,56 @@ def random_setting(setting_type)
     :key => "#{Faker::Hacker.verb}-#{get_unique_id}",
     :value => "#{Faker::Hacker.say_something_smart}",
     :setting_type_id => setting_type.id
+  }
+end
+
+
+def random_template_layout(file_type)
+  unique_id = get_unique_id
+  {
+    :name => "#{Faker::Team.creature} #{unique_id}",
+    :data_file_attributes => {
+      :file_type_id => file_type.id,
+      :body => %Q;<!DOCTYPE>
+<html>
+  <head>
+    <title>Layout #{unique_id}</title>
+  </head>
+  <body>
+    <h1>Layout #{unique_id}</h1>
+    {{ yield }}
+  </body>
+</html>
+;
+    }
+  }
+end
+
+
+def random_template_body(file_type)
+  {
+    'md' => '# This is a Markdown template',
+    'html' => '<p>This is an HTML template</p>',
+    'md.liquid' => '# This is a Liquid Markdown template',
+    'html.liquid' => '<p>This is an Liquid HTML template</p>'
+  }[file_type.extension]
+end
+
+
+def random_page(template_layout, file_type)
+  title = "#{Faker::Hacker.say_something_smart} #{get_unique_id}"
+  {
+    :title => title,
+    :slug_attributes => {
+      :uri => title.slugify_trim
+    },
+    :view_attributes => {
+      :template_layout_id => template_layout ? template_layout.id : nil,
+      :data_file_attributes => {
+        :body => random_template_body(file_type),
+        :file_type_id => file_type.id
+      }
+    }
   }
 end
 
@@ -101,26 +144,12 @@ settings = Setting.all
 
 
 # ----------------------------------------
-# Create Settings
+# Create File Types
 # ----------------------------------------
 
-puts 'Creating Slugs'
+puts 'Creating FileTypes'
 
-slugs = []
-(MULTIPLIER * NUM_SLUGS).times do
-  slugs << random_slug
-end
-Slug.create(slugs)
-slugs = Slug.all
-
-
-# ----------------------------------------
-# Create Template File Types
-# ----------------------------------------
-
-puts 'Creating TemplateFileTypes'
-
-template_file_types = [
+file_types = [
   {
     :name => 'Markdown',
     :extension => 'md'
@@ -138,9 +167,38 @@ template_file_types = [
     :extension => 'html.liquid'
   }
 ]
-TemplateFileType.create(template_file_types)
-template_file_types = TemplateFileType.all
+FileType.create(file_types)
+file_types = FileType.all
 
+
+# ----------------------------------------
+# Create TemplateLayouts
+# ----------------------------------------
+
+puts 'Creating TemplateLayouts'
+
+template_layouts = []
+liquid_html_file_type = file_types.where(:name => 'Liquid HTML').first
+NUM_TEMPLATE_LAYOUTS.times do
+  template_layouts << random_template_layout(liquid_html_file_type)
+end
+TemplateLayout.create(template_layouts)
+template_layouts = TemplateLayout.all
+
+
+# ----------------------------------------
+# Create Pages
+# ----------------------------------------
+
+puts 'Creating Pages'
+
+pages = []
+NUM_PAGES.times do
+  template_layout = [template_layouts.sample, nil].sample
+  pages << random_page(template_layout, file_types.sample)
+end
+Page.create(pages)
+pages = Page.all
 
 
 # ----------------------------------------

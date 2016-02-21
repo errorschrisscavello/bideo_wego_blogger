@@ -1,7 +1,7 @@
 class CreateSlugs < ActiveRecord::Migration
   def change
     create_table :slugs do |t|
-      t.string :uri
+      t.string :uri, :null => false
       t.string :sluggable_type
       t.integer :sluggable_id
 

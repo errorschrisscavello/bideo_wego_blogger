@@ -10,7 +10,7 @@ class CreatePages < ActiveRecord::Migration
       t.index :uid, :unique => true
       t.index :title, :unique => true
       t.index :parent_id
-      t.index :view_id
+      t.index :view_id, :unique => true
       t.index :slug_id, :unique => true
 
       t.timestamps null: false

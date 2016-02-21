@@ -82,12 +82,12 @@ class PagesController < ApplicationController
         :viewable_type,
         :viewable_id,
         :template_layout_id,
-        :template_attributes => [
+        :data_file_attributes => [
           :id,
           :body,
-          :templateable_type,
-          :templateable_id,
-          :template_file_type_id
+          :data_fileable_type,
+          :data_fileable_id,
+          :file_type_id
         ]
       ]
     )

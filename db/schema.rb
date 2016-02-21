@@ -11,17 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160221013725) do
+ActiveRecord::Schema.define(version: 20160221225211) do
 
-  create_table "layouts", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.integer  "template_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+  create_table "data_files", force: :cascade do |t|
+    t.text     "body"
+    t.string   "data_fileable_type"
+    t.integer  "data_fileable_id"
+    t.integer  "file_type_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
-  add_index "layouts", ["name"], name: "index_layouts_on_name", unique: true
-  add_index "layouts", ["template_id"], name: "index_layouts_on_template_id"
+  add_index "data_files", ["data_fileable_id", "data_fileable_type"], name: "index_data_files_on_data_fileable_id_and_data_fileable_type", unique: true
+  add_index "data_files", ["data_fileable_id"], name: "index_data_files_on_data_fileable_id"
+  add_index "data_files", ["data_fileable_type"], name: "index_data_files_on_data_fileable_type"
+  add_index "data_files", ["file_type_id"], name: "index_data_files_on_file_type_id"
+
+  create_table "file_types", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "extension",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "file_types", ["extension"], name: "index_file_types_on_extension", unique: true
+  add_index "file_types", ["name"], name: "index_file_types_on_name", unique: true
 
   create_table "pages", force: :cascade do |t|
     t.string   "uid",        null: false
@@ -37,7 +51,7 @@ ActiveRecord::Schema.define(version: 20160221013725) do
   add_index "pages", ["slug_id"], name: "index_pages_on_slug_id", unique: true
   add_index "pages", ["title"], name: "index_pages_on_title", unique: true
   add_index "pages", ["uid"], name: "index_pages_on_uid", unique: true
-  add_index "pages", ["view_id"], name: "index_pages_on_view_id"
+  add_index "pages", ["view_id"], name: "index_pages_on_view_id", unique: true
 
   create_table "partials", force: :cascade do |t|
     t.string   "name",        null: false
@@ -71,7 +85,7 @@ ActiveRecord::Schema.define(version: 20160221013725) do
   add_index "settings", ["value"], name: "index_settings_on_value"
 
   create_table "slugs", force: :cascade do |t|
-    t.string   "uri"
+    t.string   "uri",            null: false
     t.string   "sluggable_type"
     t.integer  "sluggable_id"
     t.datetime "created_at",     null: false
@@ -82,16 +96,6 @@ ActiveRecord::Schema.define(version: 20160221013725) do
   add_index "slugs", ["sluggable_id"], name: "index_slugs_on_sluggable_id"
   add_index "slugs", ["sluggable_type"], name: "index_slugs_on_sluggable_type"
   add_index "slugs", ["uri"], name: "index_slugs_on_uri", unique: true
-
-  create_table "template_file_types", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "extension",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "template_file_types", ["extension"], name: "index_template_file_types_on_extension", unique: true
-  add_index "template_file_types", ["name"], name: "index_template_file_types_on_name", unique: true
 
   create_table "template_layouts", force: :cascade do |t|
     t.string   "name",        null: false
@@ -107,15 +111,29 @@ ActiveRecord::Schema.define(version: 20160221013725) do
     t.text     "body"
     t.string   "templateable_type"
     t.integer  "templateable_id"
-    t.integer  "template_file_type_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.integer  "file_type_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
-  add_index "templates", ["template_file_type_id"], name: "index_templates_on_template_file_type_id"
+  add_index "templates", ["file_type_id"], name: "index_templates_on_file_type_id"
   add_index "templates", ["templateable_id", "templateable_type"], name: "index_templates_on_templateable_id_and_templateable_type", unique: true
   add_index "templates", ["templateable_id"], name: "index_templates_on_templateable_id"
   add_index "templates", ["templateable_type"], name: "index_templates_on_templateable_type"
+
+  create_table "text_files", force: :cascade do |t|
+    t.text     "body"
+    t.string   "text_fileable_type"
+    t.integer  "text_fileable_id"
+    t.integer  "file_type_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "text_files", ["file_type_id"], name: "index_text_files_on_file_type_id"
+  add_index "text_files", ["text_fileable_id", "text_fileable_type"], name: "index_text_files_on_text_fileable_id_and_text_fileable_type", unique: true
+  add_index "text_files", ["text_fileable_id"], name: "index_text_files_on_text_fileable_id"
+  add_index "text_files", ["text_fileable_type"], name: "index_text_files_on_text_fileable_type"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",           null: false

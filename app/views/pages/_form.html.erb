@@ -23,7 +23,7 @@
       :parent_id,
       Page.all.reject { |page| page == @page },
       :id,
-      :name,
+      :title,
       { :include_blank => true },
       { :class => 'form-control' }
     ) %>
@@ -53,18 +53,18 @@
         <%= template_fields.text_area(:body, :class => 'form-control') %>
       </div>
       <div class="form-group">
-        <%= template_fields.label(:template_file_type) %>
+        <%= template_fields.label(:file_type) %>
         <%= template_fields.collection_select(
-          :template_file_type_id,
-          TemplateFileType.all,
+          :file_type_id,
+          FileType.all,
           :id,
           :name,
           {},
           { :class => 'form-control' }
         ) %>
       </div>
-      <%= template_fields.hidden_field(:templateable_type) %>
-      <%= template_fields.hidden_field(:templateable_id) %>
+      <%= template_fields.hidden_field(:data_fileable_type) %>
+      <%= template_fields.hidden_field(:data_fileable_id) %>
     <% end %>
   <% end %>
 

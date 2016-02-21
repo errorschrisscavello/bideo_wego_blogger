@@ -4,6 +4,9 @@ module UniquelyIdentifiable
 
   included do
     before_create :assign_unique_id
+
+    @@unique_id_seed = nil
+    @@unique_id_attribute = :uid
   end
 
 
@@ -13,10 +16,6 @@ module UniquelyIdentifiable
 
 
   class_methods do
-    @@unique_id_seed = nil
-    @@unique_id_attribute = :uid
-
-
     def unique_id_seed(value=nil)
       @@unique_id_seed = value unless value.nil?
       @@unique_id_seed

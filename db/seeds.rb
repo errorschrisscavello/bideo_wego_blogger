@@ -115,6 +115,35 @@ slugs = Slug.all
 
 
 # ----------------------------------------
+# Create Template File Types
+# ----------------------------------------
+
+puts 'Creating TemplateFileTypes'
+
+template_file_types = [
+  {
+    :name => 'Markdown',
+    :extension => 'md'
+  },
+  {
+    :name => 'HTML',
+    :extension => 'html'
+  },
+  {
+    :name => 'Liquid Markdown',
+    :extension => 'md.liquid'
+  },
+  {
+    :name => 'Liquid HTML',
+    :extension => 'html.liquid'
+  }
+]
+TemplateFileType.create(template_file_types)
+template_file_types = TemplateFileType.all
+
+
+
+# ----------------------------------------
 # Finished Seeding!
 # ----------------------------------------
 

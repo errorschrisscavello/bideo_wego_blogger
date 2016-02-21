@@ -1,0 +1,73 @@
+<%= render :partial => 'shared/errors', :locals => { :object => page } %>
+
+<%= form_for(@page) do |f| %>
+
+  <!-- Slug -->
+  <%= f.fields_for(:slug) do |slug_fields| %>
+    <div class="form-group">
+      <%= slug_fields.label(:uri) %>
+      <%= slug_fields.text_field(:uri, :class => 'form-control') %>
+    </div>
+    <%= slug_fields.hidden_field(:sluggable_type) %>
+    <%= slug_fields.hidden_field(:sluggable_id) %>
+  <% end %>
+
+  <!-- Page -->
+  <div class="form-group">
+    <%= f.label(:title) %>
+    <%= f.text_field(:title, :class => 'form-control') %>
+  </div>
+  <div class="form-group">
+    <%= f.label(:parent) %>
+    <%= f.collection_select(
+      :parent_id,
+      Page.all.reject { |page| page == @page },
+      :id,
+      :name,
+      { :include_blank => true },
+      { :class => 'form-control' }
+    ) %>
+  </div>
+
+  <!-- View -->
+  <%= f.fields_for(:view) do |view_fields| %>
+    <div class="form-group">
+      <%= view_fields.label(:template_layout) %>
+      <%= view_fields.collection_select(
+        :template_layout_id,
+        TemplateLayout.all,
+        :id,
+        :name,
+        { :include_blank => true },
+        { :class => 'form-control' }
+      ) %>
+      <%= view_fields.hidden_field(:viewable_type) %>
+      <%= view_fields.hidden_field(:viewable_id) %>
+    </div>
+
+
+    <!-- Template -->
+    <%= view_fields.fields_for(:template) do |template_fields| %>
+      <div class="form-group">
+        <%= template_fields.label(:body) %>
+        <%= template_fields.text_area(:body, :class => 'form-control') %>
+      </div>
+      <div class="form-group">
+        <%= template_fields.label(:template_file_type) %>
+        <%= template_fields.collection_select(
+          :template_file_type_id,
+          TemplateFileType.all,
+          :id,
+          :name,
+          {},
+          { :class => 'form-control' }
+        ) %>
+      </div>
+      <%= template_fields.hidden_field(:templateable_type) %>
+      <%= template_fields.hidden_field(:templateable_id) %>
+    <% end %>
+  <% end %>
+
+  <%= f.submit(:class => 'btn btn-success') %>
+<% end %>
+

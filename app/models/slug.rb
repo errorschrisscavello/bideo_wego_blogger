@@ -4,12 +4,4 @@ class Slug < ActiveRecord::Base
   validates :uri,
             :presence => true,
             :uniqueness => true
-
-  validates :sluggable_id,
-            :presence => true,
-            :uniqueness => { :scope => :sluggable_type }
-
-  validates :sluggable_type,
-            :presence => true,
-            :uniqueness => { :scope => :sluggable_id }
 end

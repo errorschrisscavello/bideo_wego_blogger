@@ -1,4 +1,4 @@
-class Layout < ActiveRecord::Base
+class TemplateLayout < ActiveRecord::Base
   has_one :template, :as => :templateable
   has_many :views
 

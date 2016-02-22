@@ -1,6 +1,6 @@
 <header class="page-header">
   <h1>
-    <%= fa('page') %> Pages
+    <%= fa('file') %> Pages
     <small>
       <%= link_to(fa('plus') + ' New Page', new_page_path) %>
     </small>
@@ -10,13 +10,21 @@
 
 <% if @pages.present? %>
 
-  <ol>
-    <% @pages.each do |page| %>
-      <li>
-        <%= link_to(page.title, page_path(page)) %>
-      </li>
-    <% end %>
-  </ol>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @pages.each do |page| %>
+        <tr>
+          <td><%= page.id %></td>
+          <td><%= link_to(page.title, page_path(page)) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
 <% else %>
 

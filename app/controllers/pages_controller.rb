@@ -15,7 +15,7 @@ class PagesController < ApplicationController
     @page = Page.new
     @page.build_slug
     @page.build_view
-    @page.view.build_template
+    @page.view.build_data_file
   end
 
 

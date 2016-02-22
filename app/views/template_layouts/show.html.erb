@@ -1,0 +1,38 @@
+<header class="page-header">
+  <h1>
+    <%= fa('file-o') %> Template Layout
+    <small>
+      <%= link_to(@template_layout.name, template_layout_path(@template_layout)) %>
+    </small>
+  </h1>
+</header>
+
+<div class="actions">
+  <%= link_to(fa('pencil-square-o') + ' Edit', edit_template_layout_path(@template_layout), :class => 'btn btn-default') %>
+  <%= link_to(fa('close') + ' Delete', template_layout_path(@template_layout), :method => :delete, :class => 'btn btn-danger') %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Key</th><th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ID</td><td><%= @template_layout.id %></td>
+    </tr>
+    <tr>
+      <td>Name</td><td><%= @template_layout.name %></td>
+    </tr>
+    <tr>
+      <td>Used In</td>
+      <td>
+        <% @template_layout.views.map do |view| %>
+          <%= link_to("#{view.viewable.class} - #{view.viewable.title}", polymorphic_path(view.viewable)) %>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

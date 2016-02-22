@@ -1,6 +1,12 @@
 <%= render :partial => 'shared/errors', :locals => { :object => page } %>
 
-<%= form_for(@page) do |f| %>
+<%= form_for(page) do |f| %>
+
+  <% if page.persisted? %>
+    <div class="form-group">
+      <h2 class="form-control-static"><em>ID:</em> <%= page.id %></h2>
+    </div>
+  <% end %>
 
   <!-- Slug -->
   <%= f.fields_for(:slug) do |slug_fields| %>
@@ -21,7 +27,7 @@
     <%= f.label(:parent) %>
     <%= f.collection_select(
       :parent_id,
-      Page.all.reject { |page| page == @page },
+      Page.all.reject { |parent| parent == page },
       :id,
       :title,
       { :include_blank => true },
@@ -46,15 +52,15 @@
     </div>
 
 
-    <!-- Template -->
-    <%= view_fields.fields_for(:template) do |template_fields| %>
+    <!-- Data File -->
+    <%= view_fields.fields_for(:data_file) do |data_file_fields| %>
       <div class="form-group">
-        <%= template_fields.label(:body) %>
-        <%= template_fields.text_area(:body, :class => 'form-control') %>
+        <%= data_file_fields.label(:body) %>
+        <%= data_file_fields.text_area(:body, :class => 'form-control') %>
       </div>
       <div class="form-group">
-        <%= template_fields.label(:file_type) %>
-        <%= template_fields.collection_select(
+        <%= data_file_fields.label(:file_type) %>
+        <%= data_file_fields.collection_select(
           :file_type_id,
           FileType.all,
           :id,
@@ -63,8 +69,8 @@
           { :class => 'form-control' }
         ) %>
       </div>
-      <%= template_fields.hidden_field(:data_fileable_type) %>
-      <%= template_fields.hidden_field(:data_fileable_id) %>
+      <%= data_file_fields.hidden_field(:data_fileable_type) %>
+      <%= data_file_fields.hidden_field(:data_fileable_id) %>
     <% end %>
   <% end %>
 

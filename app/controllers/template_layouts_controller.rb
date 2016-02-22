@@ -13,6 +13,7 @@ class TemplateLayoutsController < ApplicationController
 
   def new
     @template_layout = TemplateLayout.new
+    @template_layout.build_data_file(:file_type_id => FileType.where(:extension => 'html.liquid').first.id)
   end
 
 
@@ -64,7 +65,14 @@ class TemplateLayoutsController < ApplicationController
 
   def template_layout_params
     params.require(:template_layout).permit(
-      :name
+      :name,
+      :data_file_attributes => [
+        :id,
+        :body,
+        :data_fileable_type,
+        :data_fileable_id,
+        :file_type_id
+      ]
     )
   end
 end

@@ -1,10 +1,10 @@
-<%= render :partial => 'shared/errors', :locals => { :object => template_layout } %>
+<%= render :partial => 'shared/errors', :locals => { :object => partial } %>
 
-<%= form_for(template_layout) do |f| %>
+<%= form_for(partial) do |f| %>
 
-  <% if template_layout.persisted? %>
+  <% if partial.persisted? %>
     <div class="form-group">
-      <h2 class="form-control-static"><em>ID:</em> <%= template_layout.id %></h2>
+      <h2 class="form-control-static"><em>ID:</em> <%= partial.id %></h2>
     </div>
   <% end %>
 
@@ -20,7 +20,17 @@
       <%= data_file_fields.label(:body) %>
       <%= data_file_fields.text_area(:body, :class => 'form-control') %>
     </div>
-    <%= data_file_fields.hidden_field(:file_type_id) %>
+    <div class="form-group">
+      <%= data_file_fields.label(:file_type) %>
+      <%= data_file_fields.collection_select(
+        :file_type_id,
+        FileType.all,
+        :id,
+        :name,
+        {},
+        { :class => 'form-control' }
+      ) %>
+    </div>
     <%= data_file_fields.hidden_field(:data_fileable_type) %>
     <%= data_file_fields.hidden_field(:data_fileable_id) %>
   <% end %>

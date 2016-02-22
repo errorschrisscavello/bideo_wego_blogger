@@ -1,0 +1,48 @@
+<header class="page-header">
+  <h1>
+    <%= fa('file-code-o') %> Partial
+    <small>
+      <%= link_to(@partial.name, partial_path(@partial)) %>
+    </small>
+  </h1>
+</header>
+
+<div class="actions">
+  <%= link_to(fa('pencil-square-o') + ' Edit', edit_partial_path(@partial), :class => 'btn btn-default') %>
+  <%= link_to(fa('close') + ' Delete', partial_path(@partial), :method => :delete, :class => 'btn btn-danger') %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Key</th><th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ID</td><td><%= @partial.id %></td>
+    </tr>
+    <tr>
+      <td>Name</td><td><%= @partial.name %></td>
+    </tr>
+    <tr>
+      <td>Rendered In</td>
+      <td>
+        <% if @partial.rendered_in.empty? %>
+
+          <p class="text-danger">Not rendered in any data files</p>
+
+        <% else %>
+
+            <% @partial.rendered_in.each do |data_file| %>
+              <p>
+                <%= data_fileable_link_for(data_file) %>
+              </p>
+            <% end %>
+
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

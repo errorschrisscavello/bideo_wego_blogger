@@ -27,6 +27,7 @@ NUM_SETTINGS = 100
 NUM_SLUGS = 50
 NUM_TEMPLATE_LAYOUTS = 5
 NUM_PAGES = 10
+NUM_PARTIALS = 10
 
 
 $uid = 0
@@ -54,7 +55,7 @@ end
 def random_template_layout(file_type)
   unique_id = get_unique_id
   {
-    :name => "#{Faker::Team.creature} #{unique_id}",
+    :name => "#{Faker::Team.creature}_#{unique_id}",
     :data_file_attributes => {
       :file_type_id => file_type.id,
       :body => %Q;<!DOCTYPE>
@@ -73,7 +74,7 @@ def random_template_layout(file_type)
 end
 
 
-def random_template_body(file_type)
+def random_data_file_body(file_type)
   {
     'md' => '# This is a Markdown template',
     'html' => '<p>This is an HTML template</p>',
@@ -93,9 +94,21 @@ def random_page(template_layout, file_type)
     :view_attributes => {
       :template_layout_id => template_layout ? template_layout.id : nil,
       :data_file_attributes => {
-        :body => random_template_body(file_type),
+        :body => random_data_file_body(file_type),
         :file_type_id => file_type.id
       }
+    }
+  }
+end
+
+
+def random_partial(file_type)
+  name = "#{Faker::Team.creature}_#{get_unique_id}"
+  {
+    :name => name,
+    :data_file_attributes => {
+      :body => random_data_file_body(file_type),
+      :file_type_id => file_type.id
     }
   }
 end
@@ -107,11 +120,11 @@ end
 
 puts 'Creating users'
 
-User.create(
-  :username => 'foobar1234',
-  :email => 'foo1234@bar.com',
+User.new(
+  :username => 'foobar',
+  :email => 'foo@bar.com',
   :password => 'password'
-)
+).save!(:validate => false)
 user = User.first
 
 
@@ -172,6 +185,20 @@ file_types = FileType.all
 
 
 # ----------------------------------------
+# Create Partials
+# ----------------------------------------
+
+puts 'Creating Partials'
+
+partials = []
+NUM_PARTIALS.times do
+  partials << random_partial(file_types.sample)
+end
+Partial.create(partials)
+partials = Partial.all
+
+
+# ----------------------------------------
 # Create TemplateLayouts
 # ----------------------------------------
 
@@ -199,6 +226,19 @@ NUM_PAGES.times do
 end
 Page.create(pages)
 pages = Page.all
+
+
+# ----------------------------------------
+# Add Partial Rendering Calls
+# ----------------------------------------
+
+puts 'Adding Partial Rendering Calls'
+
+(MULTIPILER * NUM_PARTIALS).times do
+  data_file = [partials.sample, pages.sample.view, template_layouts.sample].sample.data_file
+  data_file.body << "{% partial '#{partials.sample.name}' %}"
+  data_file.save!
+end
 
 
 # ----------------------------------------

@@ -1,4 +1,15 @@
 module ApplicationHelper
+  def present(object, class_name=nil, &block)
+    class_name ||= object.class.to_s
+    presenter = "#{class_name}Presenter".constantize.new(object, self)
+    if block_given?
+      yield(presenter) 
+    else
+      block.call(presenter)
+    end
+  end
+
+
   def error_messages_for(object, field=nil)
     errors = field ? object.errors[field] : object.errors.full_messages
     errors.each do |error|

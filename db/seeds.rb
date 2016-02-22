@@ -45,7 +45,7 @@ end
 
 def random_setting(setting_type)
   {
-    :key => "#{Faker::Hacker.verb}-#{get_unique_id}",
+    :key => "#{Faker::Hacker.verb}_#{get_unique_id}",
     :value => "#{Faker::Hacker.say_something_smart}",
     :setting_type_id => setting_type.id
   }
@@ -84,8 +84,8 @@ def random_data_file_body(file_type)
 end
 
 
-def random_page(template_layout, file_type)
-  title = "#{Faker::Hacker.say_something_smart} #{get_unique_id}"
+def random_page(template_layout, file_type, title=nil)
+  title ||= "#{Faker::Hacker.say_something_smart} #{get_unique_id}"
   {
     :title => title,
     :slug_attributes => {
@@ -219,7 +219,9 @@ template_layouts = TemplateLayout.all
 
 puts 'Creating Pages'
 
-pages = []
+pages = [
+  random_page(nil, file_types.sample, 'Home')
+]
 NUM_PAGES.times do
   template_layout = [template_layouts.sample, nil].sample
   pages << random_page(template_layout, file_types.sample)
@@ -236,7 +238,12 @@ puts 'Adding Partial Rendering Calls'
 
 (MULTIPLIER * NUM_PARTIALS).times do
   data_file = [partials.sample, pages.sample.view, template_layouts.sample].sample.data_file
-  data_file.body << "{% partial '#{partials.sample.name}' %}"
+  if data_file.data_fileable.is_a?(Partial)
+    partial = partials.where('id != ?', data_file.data_fileable.id)
+  else
+    partial = partials.sample
+  end
+  data_file.body << "{% partial '#{partial.name}' %}"
   data_file.save!
 end
 

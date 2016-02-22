@@ -3,6 +3,8 @@ class SlugsController < ApplicationController
 
 
   def show
+    @data = {}
+    Setting.all.to_a.each { |setting| @data[setting.key] = setting.value }
   end
 
 

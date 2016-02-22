@@ -234,7 +234,7 @@ pages = Page.all
 
 puts 'Adding Partial Rendering Calls'
 
-(MULTIPILER * NUM_PARTIALS).times do
+(MULTIPLIER * NUM_PARTIALS).times do
   data_file = [partials.sample, pages.sample.view, template_layouts.sample].sample.data_file
   data_file.body << "{% partial '#{partials.sample.name}' %}"
   data_file.save!

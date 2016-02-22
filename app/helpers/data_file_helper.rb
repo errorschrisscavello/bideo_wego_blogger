@@ -10,6 +10,6 @@ module DataFileHelper
       type = data_fileable.class.to_s
       text = data_fileable.name
     end
-    "#{type} - #{link_to(text, polymorphic_path(resource))}".html_safe
+    "#{type} - #{link_to(text, polymorphic_path([:admin, resource]))}".html_safe
   end
 end

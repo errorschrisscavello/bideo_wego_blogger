@@ -1,18 +1,22 @@
 Rails.application.routes.draw do
 
-  resources :pages
-  resources :partials
-  resources :slugs, :only => [:index]
-  resources :setting_types
-  resources :users
-  resources :template_layouts
+  namespace :admin do
+    resources :pages
+    resources :partials
+    resources :slugs, :only => [:index]
+    resources :setting_types
+    resources :users
+    resources :template_layouts
+  end
+
+  get 'admin', :to => 'admin#index'
 
   resource :session, :only => [:new, :create, :destroy]
   
   get 'login', :to => 'sessions#new'
   get 'logout', :to => 'sessions#destroy'
   
-  root 'users#index'
+  root 'pages#index'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

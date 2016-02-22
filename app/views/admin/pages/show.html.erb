@@ -1,0 +1,33 @@
+<header class="page-header">
+  <h1>
+    <%= fa('file') %> Page
+    <small>
+      <%= link_to(@page.title, admin_page_path(@page)) %>
+    </small>
+  </h1>
+</header>
+
+<div class="actions">
+  <%= link_to(fa('pencil-square-o') + ' Edit', edit_admin_page_path(@page), :class => 'btn btn-default') %>
+  <%= link_to(fa('close') + ' Delete', admin_page_path(@page), :method => :delete, :class => 'btn btn-danger') %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Key</th><th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Title</td><td><%= @page.title %></td>
+    </tr>
+    <tr>
+      <td>Layout</td><td><%= @page.view.template_layout ? @page.view.template_layout.name : '-' %></td>
+    </tr>
+    <tr>
+      <td>Parent</td><td><%= @page.parent ? @page.parent.title : '-' %></td>
+    </tr>
+  </tbody>
+</table>
+

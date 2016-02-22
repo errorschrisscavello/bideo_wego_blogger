@@ -1,0 +1,33 @@
+<header class="page-header">
+  <h1>
+    <%= fa('link') %> Slugs
+  </h1>
+</header>
+
+
+<% if @slugs.present? %>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>URI</th><th>Sluggable Type</th><th>Sluggable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @slugs.each do |slug| %>
+        <tr>
+          <td><%= slug.id %></td>
+          <td>/<%= slug.uri %></td>
+          <td><%= slug.sluggable_type %></td>
+          <td><%= link_to(slug.sluggable.title, polymorphic_path([:admin, slug.sluggable])) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+
+  <p class="text-danger">Why for are there no more slugs no more?</p>
+
+<% end %>
+

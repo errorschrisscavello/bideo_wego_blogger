@@ -7,8 +7,8 @@ class Page < ActiveRecord::Base
 
 
   belongs_to :parent, :class_name => 'Page'
-  has_one :slug, :as => :sluggable
-  has_one :view, :as => :viewable
+  has_one :slug, :as => :sluggable, :dependent => :destroy
+  has_one :view, :as => :viewable, :dependent => :destroy
 
 
   validates :title,

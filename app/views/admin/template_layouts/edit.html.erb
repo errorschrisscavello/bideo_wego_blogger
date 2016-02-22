@@ -1,0 +1,11 @@
+<header class="page-header">
+  <h1>
+    <%= fa('file-o') %> Edit Template Layout
+    <small>
+      <%= link_to(@template_layout.name, admin_template_layout_path(@template_layout)) %>
+    </small>
+  </h1>
+</header>
+
+<%= render :partial => 'form', :locals => { :template_layout => @template_layout } %>
+

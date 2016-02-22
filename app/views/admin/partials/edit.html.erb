@@ -1,0 +1,11 @@
+<header class="page-header">
+  <h1>
+    <%= fa('file-code-o') %> Edit Partial
+    <small>
+      <%= link_to(@partial.name, admin_partial_path(@partial)) %>
+    </small>
+  </h1>
+</header>
+
+<%= render :partial => 'form', :locals => { :partial => @partial } %>
+

@@ -1,0 +1,38 @@
+<%= render :partial => 'admin/shared/errors', :locals => { :object => setting_type } %>
+
+<%= form_for([:admin, setting_type]) do |f| %>
+
+  <% if setting_type.persisted? %>
+    <div class="form-group">
+      <h2 class="form-control-static"><em>ID:</em> <%= setting_type.id %></h2>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label(:name) %>
+    <%= f.text_field(:name, :class => 'form-control') %>
+  </div>
+
+  <div class="row well">
+    <h2>Settings</h2>
+
+    <%= f.fields_for(:settings) do |setting_fields| %>
+      <div class="col-xs-3">
+        <div class="form-group">
+          <%= setting_fields.label(:key) %>
+          <%= setting_fields.text_field(:key, :class => 'form-control') %>
+        </div>
+      </div>
+
+      <div class="col-xs-9">
+        <div class="form-group">
+          <%= setting_fields.label(:value) %>
+          <%= setting_fields.text_field(:value, :class => 'form-control') %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= f.submit(:class => 'btn btn-success') %>
+<% end %>
+

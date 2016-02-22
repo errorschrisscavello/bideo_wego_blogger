@@ -1,6 +1,8 @@
 class SessionsController < ApplicationController
   before_action :require_logout, :only => [:create]
 
+  layout 'admin'
+
   def new
     redirect_to admin_path if signed_in_user?
   end

@@ -8,14 +8,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <%= link_to(fa('dashboard') + ' Dashboard', admin_path, :class => 'navbar-brand') %>
+      <% if signed_in_user? %>
+        <%= link_to(fa('dashboard') + ' Dashboard', admin_path, :class => 'navbar-brand') %>
+      <% end %>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="main-navbar-collapse">
       <ul class="nav navbar-nav navbar-left">
         <li>
-          <%= link_to(fa('users') + ' Pulic Site', root_path) %>
+          <%= link_to(fa('home') + ' Home', root_path) %>
         </li>        
       </ul>
 

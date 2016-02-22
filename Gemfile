@@ -25,6 +25,8 @@ end
 
 gem 'figaro'
 gem 'slugify'
+gem 'liquid'
+gem 'rdiscount'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

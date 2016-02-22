@@ -1,4 +1,4 @@
-module DataFileHelper
+module Admin::DataFileHelper
   def data_fileable_link_for(data_file)
     data_fileable = data_file.data_fileable
     if data_file.data_fileable.is_a?(View)

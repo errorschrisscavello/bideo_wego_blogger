@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  # ----------------------------------------
+  # Admin
+  # ----------------------------------------
+
   namespace :admin do
     resources :pages
     resources :partials
@@ -16,7 +20,22 @@ Rails.application.routes.draw do
   get 'login', :to => 'sessions#new'
   get 'logout', :to => 'sessions#destroy'
   
-  root 'pages#index'
+  # ----------------------------------------
+  # Public
+  # ----------------------------------------
+
+  root :to => 'slugs#show', :defaults => { :slug => 'home' }
+
+  get '/:slug', :to => 'slugs#show'
+
+  {
+    404 => :not_found,
+    422 => :bad_request, 
+    500 => :internal_server_error
+  }.each do |code, route_name|
+    get "/#{code}", :to => 'errors#show', :defaults => { :code => code }, :as => route_name
+  end
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

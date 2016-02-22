@@ -1,0 +1,2 @@
+module Admin::SettingTypesHelper
+end

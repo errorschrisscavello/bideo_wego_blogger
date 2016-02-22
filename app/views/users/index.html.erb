@@ -10,17 +10,25 @@
 
 <% if @users.present? %>
 
-  <ol>
-    <% @users.each do |user| %>
-      <li>
-        <%= link_to(user.username, user_path(user)) %>
-      </li>
-    <% end %>
-  </ol>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= link_to(user.username, user_path(user)) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
 <% else %>
 
-  <p class="text-danger">Why for are there no more users anymore?</p>
+  <p class="text-danger">Why for are there no more users no more?</p>
 
 <% end %>
 

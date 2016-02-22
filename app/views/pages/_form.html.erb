@@ -1,0 +1,79 @@
+<%= render :partial => 'shared/errors', :locals => { :object => page } %>
+
+<%= form_for(page) do |f| %>
+
+  <% if page.persisted? %>
+    <div class="form-group">
+      <h2 class="form-control-static"><em>ID:</em> <%= page.id %></h2>
+    </div>
+  <% end %>
+
+  <!-- Slug -->
+  <%= f.fields_for(:slug) do |slug_fields| %>
+    <div class="form-group">
+      <%= slug_fields.label(:uri) %>
+      <%= slug_fields.text_field(:uri, :class => 'form-control') %>
+    </div>
+    <%= slug_fields.hidden_field(:sluggable_type) %>
+    <%= slug_fields.hidden_field(:sluggable_id) %>
+  <% end %>
+
+  <!-- Page -->
+  <div class="form-group">
+    <%= f.label(:title) %>
+    <%= f.text_field(:title, :class => 'form-control') %>
+  </div>
+  <div class="form-group">
+    <%= f.label(:parent) %>
+    <%= f.collection_select(
+      :parent_id,
+      Page.all.reject { |parent| parent == page },
+      :id,
+      :title,
+      { :include_blank => true },
+      { :class => 'form-control' }
+    ) %>
+  </div>
+
+  <!-- View -->
+  <%= f.fields_for(:view) do |view_fields| %>
+    <div class="form-group">
+      <%= view_fields.label(:template_layout) %>
+      <%= view_fields.collection_select(
+        :template_layout_id,
+        TemplateLayout.all,
+        :id,
+        :name,
+        { :include_blank => true },
+        { :class => 'form-control' }
+      ) %>
+      <%= view_fields.hidden_field(:viewable_type) %>
+      <%= view_fields.hidden_field(:viewable_id) %>
+    </div>
+
+
+    <!-- Data File -->
+    <%= view_fields.fields_for(:data_file) do |data_file_fields| %>
+      <div class="form-group">
+        <%= data_file_fields.label(:body) %>
+        <%= data_file_fields.text_area(:body, :class => 'form-control') %>
+      </div>
+      <div class="form-group">
+        <%= data_file_fields.label(:file_type) %>
+        <%= data_file_fields.collection_select(
+          :file_type_id,
+          FileType.all,
+          :id,
+          :name,
+          {},
+          { :class => 'form-control' }
+        ) %>
+      </div>
+      <%= data_file_fields.hidden_field(:data_fileable_type) %>
+      <%= data_file_fields.hidden_field(:data_fileable_id) %>
+    <% end %>
+  <% end %>
+
+  <%= f.submit(:class => 'btn btn-success') %>
+<% end %>
+

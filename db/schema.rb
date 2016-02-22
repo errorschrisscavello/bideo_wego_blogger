@@ -11,7 +11,57 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160207000126) do
+ActiveRecord::Schema.define(version: 20160221225211) do
+
+  create_table "data_files", force: :cascade do |t|
+    t.text     "body"
+    t.string   "data_fileable_type"
+    t.integer  "data_fileable_id"
+    t.integer  "file_type_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "data_files", ["data_fileable_id", "data_fileable_type"], name: "index_data_files_on_data_fileable_id_and_data_fileable_type", unique: true
+  add_index "data_files", ["data_fileable_id"], name: "index_data_files_on_data_fileable_id"
+  add_index "data_files", ["data_fileable_type"], name: "index_data_files_on_data_fileable_type"
+  add_index "data_files", ["file_type_id"], name: "index_data_files_on_file_type_id"
+
+  create_table "file_types", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "extension",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "file_types", ["extension"], name: "index_file_types_on_extension", unique: true
+  add_index "file_types", ["name"], name: "index_file_types_on_name", unique: true
+
+  create_table "pages", force: :cascade do |t|
+    t.string   "uid",        null: false
+    t.string   "title",      null: false
+    t.integer  "parent_id"
+    t.integer  "view_id"
+    t.integer  "slug_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "pages", ["parent_id"], name: "index_pages_on_parent_id"
+  add_index "pages", ["slug_id"], name: "index_pages_on_slug_id", unique: true
+  add_index "pages", ["title"], name: "index_pages_on_title", unique: true
+  add_index "pages", ["uid"], name: "index_pages_on_uid", unique: true
+  add_index "pages", ["view_id"], name: "index_pages_on_view_id", unique: true
+
+  create_table "partials", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.integer  "template_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "partials", ["name"], name: "index_partials_on_name", unique: true
+  add_index "partials", ["template_id"], name: "index_partials_on_template_id"
 
   create_table "setting_types", force: :cascade do |t|
     t.string   "name",       null: false
@@ -36,8 +86,8 @@ ActiveRecord::Schema.define(version: 20160207000126) do
 
   create_table "slugs", force: :cascade do |t|
     t.string   "uri",            null: false
-    t.string   "sluggable_type", null: false
-    t.integer  "sluggable_id",   null: false
+    t.string   "sluggable_type"
+    t.integer  "sluggable_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
@@ -46,6 +96,16 @@ ActiveRecord::Schema.define(version: 20160207000126) do
   add_index "slugs", ["sluggable_id"], name: "index_slugs_on_sluggable_id"
   add_index "slugs", ["sluggable_type"], name: "index_slugs_on_sluggable_type"
   add_index "slugs", ["uri"], name: "index_slugs_on_uri", unique: true
+
+  create_table "template_layouts", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.integer  "template_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "template_layouts", ["name"], name: "index_template_layouts_on_name", unique: true
+  add_index "template_layouts", ["template_id"], name: "index_template_layouts_on_template_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",           null: false
@@ -59,5 +119,20 @@ ActiveRecord::Schema.define(version: 20160207000126) do
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["username"], name: "index_users_on_username", unique: true
+
+  create_table "views", force: :cascade do |t|
+    t.string   "viewable_type"
+    t.integer  "viewable_id"
+    t.integer  "template_layout_id"
+    t.integer  "template_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "views", ["template_id"], name: "index_views_on_template_id"
+  add_index "views", ["template_layout_id"], name: "index_views_on_template_layout_id"
+  add_index "views", ["viewable_id", "viewable_type"], name: "index_views_on_viewable_id_and_viewable_type", unique: true
+  add_index "views", ["viewable_id"], name: "index_views_on_viewable_id"
+  add_index "views", ["viewable_type"], name: "index_views_on_viewable_type"
 
 end

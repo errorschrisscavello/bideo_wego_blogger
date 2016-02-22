@@ -10,17 +10,25 @@
 
 <% if @setting_types.present? %>
 
-  <ol>
-    <% @setting_types.each do |setting_type| %>
-      <li>
-        <%= link_to(setting_type.name, setting_type_path(setting_type)) %>
-      </li>
-    <% end %>
-  </ol>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @setting_types.each do |setting_type| %>
+        <tr>
+          <td><%= setting_type.id %></td>
+          <td><%= link_to(setting_type.name, setting_type_path(setting_type)) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
 <% else %>
 
-  <p class="text-danger">Why for are there no more setting types anymore?</p>
+  <p class="text-danger">Why for are there no more setting types no more?</p>
 
 <% end %>
 

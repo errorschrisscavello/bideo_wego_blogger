@@ -1,6 +1,13 @@
 <%= render :partial => 'shared/errors', :locals => { :object => user } %>
 
 <%= form_for(user) do |f| %>
+
+  <% if user.persisted? %>
+    <div class="form-group">
+      <h2 class="form-control-static"><em>ID:</em> <%= user.id %></h2>
+    </div>
+  <% end %>
+
   <div class="form-group">
     <%= f.label(:username) %>
     <%= f.text_field(:username, :class => 'form-control') %>

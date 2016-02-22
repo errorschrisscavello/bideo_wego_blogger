@@ -22,6 +22,9 @@
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>ID</td><td><%= @setting_type.id %></td>
+    </tr>
     <% @setting_type.settings.each do |setting| %>
       <tr>
         <td><%= setting.key %></td><td><%= setting.value %></td>

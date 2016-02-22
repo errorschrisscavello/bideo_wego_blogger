@@ -1,6 +1,9 @@
 <header class="page-header">
   <h1>
     <%= fa('gears') %> Edit Setting Type
+    <small>
+      <%= link_to(@setting_type.name, setting_type_path(@setting_type)) %>
+    </small>
   </h1>
 </header>
 

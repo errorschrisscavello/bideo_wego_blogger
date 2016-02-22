@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   # TODO more thorough full application tests!
   # TODO add comments to methods
   # TODO make mockups
+  # TODO possible name: "Underpass, a tunnel into your Rails application"
 
 
   def current_user

@@ -1,11 +1,17 @@
 Rails.application.routes.draw do
 
+  resources :pages
+  resources :partials
   resources :slugs, :only => [:index]
   resources :setting_types
   resources :users
+  resources :template_layouts
+
   resource :session, :only => [:new, :create, :destroy]
+  
   get 'login', :to => 'sessions#new'
   get 'logout', :to => 'sessions#destroy'
+  
   root 'users#index'
 
 

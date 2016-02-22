@@ -1,0 +1,11 @@
+<header class="page-header">
+  <h1>
+    <%= fa('file') %> Edit Page
+    <small>
+      <%= link_to(@page.title, page_path(@page)) %>
+    </small>
+  </h1>
+</header>
+
+<%= render :partial => 'form', :locals => { :page => @page } %>
+

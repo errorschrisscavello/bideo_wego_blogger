@@ -12,7 +12,7 @@ module BideoWegoBlogger
     # ----------------------------------------
     # My Config
     # ----------------------------------------
-    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.autoload_paths += Dir["#{config.root}/app/renderers/**/"]
 
 
 
